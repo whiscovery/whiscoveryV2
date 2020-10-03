@@ -28,6 +28,9 @@
 
           <v-col cols="12" sm="8">
             <v-sheet min-height="70vh" rounded="lg">
+              <div>
+                <v-img alt="Vue logo" src="@/assets/top.png" />
+              </div>
               <router-view></router-view>
             </v-sheet>
           </v-col>
