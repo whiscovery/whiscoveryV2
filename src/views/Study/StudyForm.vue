@@ -59,6 +59,13 @@
               </template>
             </v-textarea>
           </v-col>
+          <v-col cols="12">
+            <v-textarea v-model="form.comment" color="teal">
+              <template v-slot:label>
+                <div>코멘트</div>
+              </template>
+            </v-textarea>
+          </v-col>
           <v-col cols="12" sm="12">
             <v-file-input
               v-model="form.imgfile"
@@ -82,6 +89,8 @@
 </template>
 
 <script>
+import fv from "../../plugins/firebase.js"
+
 export default {
   data() {
     const defaultForm = Object.freeze({
@@ -91,8 +100,8 @@ export default {
       whisckeyName: "",
       tasting: "",
       description: "",
-      imgfile: null,
-      id: null
+      comment: [],
+      imgfile: null
     })
 
     return {
@@ -124,7 +133,6 @@ export default {
       this.$refs.form.reset()
     },
     submit() {
-      console.log(this.form)
       this.$firebase
         .firestore()
         .collection("study")
@@ -135,12 +143,22 @@ export default {
           whisckeyName: this.form.whisckeyName,
           tasting: this.form.tasting,
           description: this.form.description,
-          imgfile: this.form.imgfile
+          comment: this.form.comment,
+          imgfile: this.form.imgfile,
+          created: new Date(),
+          updated: new Date()
         })
-        .then(function(docRef) {
+        .then(docRef => {
           console.log("Document written with ID: ", docRef.id)
+          this.$firebase
+            .firestore()
+            .collection("config")
+            .doc("studylastorder")
+            .update({
+              num: fv.increment(1)
+            })
         })
-        .catch(function(error) {
+        .catch(error => {
           console.error("Error adding document: ", error)
         })
       // this.$firebase

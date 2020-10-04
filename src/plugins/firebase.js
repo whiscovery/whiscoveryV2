@@ -7,5 +7,7 @@ import "firebase/firestore"
 import firebaseConfig from "../../firebaseConfig" //Firebase 구성객체
 
 firebase.initializeApp(firebaseConfig)
+const fv = firebase.firestore.FieldValue
+export default fv
 
 Vue.prototype.$firebase = firebase
