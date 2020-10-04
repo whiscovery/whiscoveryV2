@@ -74,7 +74,7 @@
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn :disabled="!formIsValid" text color="primary" type="submit">
-          Register
+          Save
         </v-btn>
       </v-card-actions>
     </v-form>
@@ -88,11 +88,11 @@ export default {
       name: "",
       category: "",
       nation: "",
-      whiskeyName: "",
+      whisckeyName: "",
       tasting: "",
       description: "",
       imgfile: null,
-      snackbar: false
+      id: null
     })
 
     return {
@@ -100,7 +100,8 @@ export default {
       rules: {
         name: [val => (val || "").length > 0 || "This field is required"]
       },
-      defaultForm
+      defaultForm,
+      snackbar: false
     }
   },
 
@@ -110,10 +111,9 @@ export default {
         this.form.name &&
         this.form.category &&
         this.form.nation &&
-        this.form.whiskeyName &&
+        this.form.whisckeyName &&
         this.form.tasting &&
-        this.form.description &&
-        this.form.imgfile
+        this.form.description
       )
     }
   },
@@ -124,6 +124,38 @@ export default {
       this.$refs.form.reset()
     },
     submit() {
+      console.log(this.form)
+      this.$firebase
+        .firestore()
+        .collection("study")
+        .add({
+          name: this.form.name,
+          category: this.form.category,
+          nation: this.form.nation,
+          whisckeyName: this.form.whisckeyName,
+          tasting: this.form.tasting,
+          description: this.form.description,
+          imgfile: this.form.imgfile
+        })
+        .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id)
+        })
+        .catch(function(error) {
+          console.error("Error adding document: ", error)
+        })
+      // this.$firebase
+      //   .database()
+      //   .ref()
+      //   .child("study")
+      //   .set({
+      //     name: this.form.name,
+      //     category: this.form.category,
+      //     nation: this.form.nation,
+      //     whisckeyName: this.form.whisckeyName,
+      //     tasting: this.form.tasting,
+      //     description: this.form.description,
+      //     imgfile: this.form.imgfile
+      //   })
       this.snackbar = true
       this.resetForm()
     }
