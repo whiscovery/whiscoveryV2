@@ -59,8 +59,8 @@ export default {
   data: () => ({
     links: [
       { link: "Dashboard", to: { name: "home" } },
-      { link: "Study List", to: "list" },
-      { link: "Study Input", to: "input" },
+      { link: "Study List", to: { name: "studylist" } },
+      { link: "Study Input", to: { name: "studyform" } },
       { link: "abc", to: "" }
     ]
   })

@@ -3,6 +3,9 @@ import VueRouter from "vue-router"
 import home from "../views/Home.vue"
 
 Vue.use(VueRouter)
+// const Study = () =>{
+//   return import(/* webpackChunkName: "study" */ "@/views/Study.vue")
+// }
 
 const routes = [
   {
@@ -11,15 +14,27 @@ const routes = [
     component: home
   },
   {
-    path: "/input",
-    name: "input",
-    component: () =>
-      import(/* webpackChunkName: "input" */ "../views/Input.vue")
-  },
-  {
-    path: "/list",
-    name: "list",
-    component: () => import(/* webpackChunkName: "list" */ "../views/List.vue")
+    path: "/study",
+    name: "study",
+    component: () => import(/* webpackChunkName: "list" */ "@/views/Study.vue"),
+    children: [
+      {
+        path: "/study/studylist",
+        name: "studylist",
+        component: () =>
+          import(
+            /* webpackChunkName: "studylist" */ "@/views/Study/StudyList.vue"
+          )
+      },
+      {
+        path: "/study/studyform",
+        name: "studyform",
+        component: () =>
+          import(
+            /* webpackChunkName: "studyform" */ "@/views/Study/StudyForm.vue"
+          )
+      }
+    ]
   }
 ]
 
